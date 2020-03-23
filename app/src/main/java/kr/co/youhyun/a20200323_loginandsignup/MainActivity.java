@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 
+import org.json.JSONObject;
+
 import kr.co.youhyun.a20200323_loginandsignup.databinding.ActivityMainBinding;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ContextUtil;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ServerUtil;
@@ -43,16 +45,22 @@ public class MainActivity extends BaseActivity {
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String inputEmail = binding.emailEdt.getText().toString();
                 if (binding.idCheckBox.isChecked()) {
+                    String inputEmail = binding.emailEdt.getText().toString();
                     ContextUtil.setEmail(mContext, inputEmail);
                 } else  {
                     ContextUtil.setEmail(mContext, "");
                 }
 
+                String inputEmail = binding.emailEdt.getText().toString();
                 String inputPw = binding.pwEdt.getText().toString();
 
-                ServerUtil.postRequestLogin(mContext, inputEmail, inputPw,null);
+                ServerUtil.postRequestLogin(mContext, inputEmail, inputPw, new ServerUtil.JsonResponseHandler() {
+                    @Override
+                    public void onResponse(JSONObject json) {
+                        Log.d("JSON내용-메인에서", json.toString());
+                    }
+                });
         }
         });
     }
