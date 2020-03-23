@@ -27,7 +27,7 @@ public class ServerUtil {
     }
 
 //   서버 호스트주소를 편하게 가져다 쓰려고 변수로 저장
-    private static final String BASE_URL = "http://tdd.team:5000";
+    private static final String BASE_URL = "http://172.30.1.49:5000";
 
 //    로그인 요청 기능 메쏘드
 //    파라미터 기본구조 : 어떤화면에서? 어떤 응답 처리를 할지? 를 변수로

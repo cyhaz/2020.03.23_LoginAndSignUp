@@ -78,11 +78,27 @@ public class MainActivity extends BaseActivity {
                             Log.d("서버가 주는 코드값", code+"");
 
                             if (code == 200) {
+                                // 로그인 성공!
                                 // 해당 기능이 성공적으로 동작
+
+                                JSONObject data = json.getJSONObject("data");
+                                JSONObject user = data.getJSONObject("user");
+                                String token = data.getString("token");
+
+//                                로그인한 사람의 이름과 번호를 토스트로 띄우기
+                                final String name = user.getString("name");
+                                final String phone = user.getString("phone");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(mContext, String.format("%s / %s", name, phone), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
                             } else {
                                 // 뭔가 문제가 있었다.
 
-                                // Toast를 띄우는데 앱이 죽는다! => UI쓰레드가
+                                // Toast를 띄우는데 앱이 죽는다! => UI쓰레드가 아닌데 토스트를 띄우니까..!!
                                 // 조치 : UIThread 안에서 토스트를 띄우자
 
                                 runOnUiThread(new Runnable() {
