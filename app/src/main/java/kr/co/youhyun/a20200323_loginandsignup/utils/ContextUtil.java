@@ -13,6 +13,7 @@ public class ContextUtil {
 //    항목명도 자동완성으로 지원할 수 있도록 미리 변수화 시켜두기
     private static final String EMAIL = "EMAIL";
     private static final String ID_CHECK = "ID_CHECK";
+    private static final String USER_TOKEN = "USER_TOKEN";
 
 //    해당 항목의 값을 저장(setter) / 조회(getter) 하는 메쏘드 두 개 생성
 
@@ -50,4 +51,15 @@ public class ContextUtil {
         SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         return pref.getBoolean(ID_CHECK, true);
     }
+
+    public static void setUserToken(Context context, String token) {
+        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        pref.edit().putString(USER_TOKEN, token).apply();
+    }
+
+    public static String getUserToken(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+        return pref.getString(USER_TOKEN, "");
+    }
+
 }
