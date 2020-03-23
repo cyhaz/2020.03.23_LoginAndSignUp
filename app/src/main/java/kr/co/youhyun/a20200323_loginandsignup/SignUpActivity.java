@@ -53,7 +53,15 @@ public class SignUpActivity extends BaseActivity {
                                 // 회원가입 성공
                                 JSONObject data = json.getJSONObject("data");
                                 JSONObject user = data.getJSONObject("user");
+                                String token = data.getString("token");
 
+                                final String name = user.getString("name");
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(mContext, String.format("%s님 환영합니다.", name), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
                             } else {
                                 // 회원가입 실패
