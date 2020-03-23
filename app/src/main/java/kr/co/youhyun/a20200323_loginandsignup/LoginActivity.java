@@ -1,15 +1,13 @@
 package kr.co.youhyun.a20200323_loginandsignup;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
+
+import androidx.databinding.DataBindingUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +17,7 @@ import kr.co.youhyun.a20200323_loginandsignup.datas.User;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ContextUtil;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ServerUtil;
 
-public class MainActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity {
 
     ActivityMainBinding binding = null;
 
@@ -104,6 +102,8 @@ public class MainActivity extends BaseActivity {
                                     @Override
                                     public void run() {
                                         Toast.makeText(mContext, String.format("%s / %s", loginUser.getName(), loginUser.getPhone()), Toast.LENGTH_SHORT).show();
+
+                                        // 메인화면으로 진입 => 내 프로필 정보를 출력
                                     }
                                 });
 
