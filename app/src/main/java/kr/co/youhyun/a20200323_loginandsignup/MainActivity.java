@@ -32,6 +32,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public void setValues() {
 
+        ServerUtil.getReuestUserList(mContext, "ALL", new ServerUtil.JsonResponseHandler() {
+            @Override
+            public void onResponse(JSONObject json) {
+                Log.d("사용자목록", json.toString());
+            }
+        });
+
 //        저장된 토큰을 확인해서 => 그 토큰으로 내 정보를 서버에서 다시 불러올것 - 조회 (Get)
         ServerUtil.getReuestMyInfo(mContext, new ServerUtil.JsonResponseHandler() {
             @Override
