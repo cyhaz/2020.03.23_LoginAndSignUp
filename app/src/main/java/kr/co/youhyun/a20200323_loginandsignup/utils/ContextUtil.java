@@ -3,6 +3,8 @@ package kr.co.youhyun.a20200323_loginandsignup.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+//  아이디 저장하는 기능
+
 public class ContextUtil {
 
 //    메모장파일처럼 데이터를 저장할 공간의 이름으로 쓸 변수
@@ -23,7 +25,16 @@ public class ContextUtil {
 
         // 열린 메모장에 항목(Key)/값(value) 저장
         pref.edit().putString(EMAIL, email).apply();   // apply()로 저장
+    }
 
+//    getter
+    public static String getEmail(Context context) {
+        // 메모장을 열어야 뭐라고 적혀있는지 확인 가능
+        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
+
+        // EMAIL 항목에 적혀있는 값을 확인해서 바로 리턴처리
+        // 저장된 값이 없으면, 빈칸으로 주도록 설정
+        return pref.getString(EMAIL, "");
     }
 
 }
