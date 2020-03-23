@@ -12,19 +12,19 @@ import androidx.databinding.DataBindingUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import kr.co.youhyun.a20200323_loginandsignup.databinding.ActivityMainBinding;
+import kr.co.youhyun.a20200323_loginandsignup.databinding.ActivityLoginBinding;
 import kr.co.youhyun.a20200323_loginandsignup.datas.User;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ContextUtil;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ServerUtil;
 
 public class LoginActivity extends BaseActivity {
 
-    ActivityMainBinding binding = null;
+    ActivityLoginBinding binding = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_login);
         setupEvents();
         setValues();
     }
@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
 
 
                                         // 메인화면으로 진입 => 내 프로필 정보를 출력 => 저장된 토큰을 이용할 예정
-                                        Intent intent = new Intent(mContext, Main2Activity.class);
+                                        Intent intent = new Intent(mContext, MainActivity.class);
                                         startActivity(intent);
                                     }
                                 });
