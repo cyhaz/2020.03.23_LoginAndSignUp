@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import kr.co.youhyun.a20200323_loginandsignup.databinding.ActivitySignUpBinding;
+import kr.co.youhyun.a20200323_loginandsignup.datas.User;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ServerUtil;
 
 public class SignUpActivity extends BaseActivity {
@@ -55,11 +56,12 @@ public class SignUpActivity extends BaseActivity {
                                 JSONObject user = data.getJSONObject("user");
                                 String token = data.getString("token");
 
-                                final String name = user.getString("name");
+//                                final String name = user.getString("name");
+                                final User signUpUser = User.getUserFromJson(user);
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(mContext, String.format("%s님 환영합니다.", name), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, String.format("%s님 환영합니다.", signUpUser.getName()), Toast.LENGTH_SHORT).show();
                                     }
                                 });
 
