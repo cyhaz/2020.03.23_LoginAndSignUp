@@ -41,11 +41,11 @@ public class LoginActivity extends BaseActivity {
         });
 
 //        체크박스에 체크가 될 때마다 체크 여부를 저장
-        binding.idCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        binding.autoLoginCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 //                ContextUtil을 이용해서 체크 여부를 저장
-                ContextUtil.setIdCheck(mContext, isChecked);
+                ContextUtil.setAutoLoginCheck(mContext, isChecked);
             }
         });
 
@@ -55,12 +55,6 @@ public class LoginActivity extends BaseActivity {
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.idCheckBox.isChecked()) {
-                    String inputEmail = binding.emailEdt.getText().toString();
-                    ContextUtil.setEmail(mContext, inputEmail);
-                } else  {
-                    ContextUtil.setEmail(mContext, "");
-                }
 
                 String inputEmail = binding.emailEdt.getText().toString();
                 String inputPw = binding.pwEdt.getText().toString();
@@ -142,6 +136,6 @@ public class LoginActivity extends BaseActivity {
 
 //        이 화면을 키면, 저장된 이메일값을 emailEdt에 입력
         binding.emailEdt.setText(ContextUtil.getEmail(mContext));
-        binding.idCheckBox.setChecked(ContextUtil.isIdCheck(mContext));
+        binding.autoLoginCheckBox.setChecked(ContextUtil.isAutoLoginCheck(mContext));
     }
 }

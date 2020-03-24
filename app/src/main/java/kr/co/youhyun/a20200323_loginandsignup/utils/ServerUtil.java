@@ -194,6 +194,51 @@ public class ServerUtil {
 
     }
 
+    public static void getRequestBlackList(Context context, final JsonResponseHandler handler) {
+
+        OkHttpClient client = new OkHttpClient();
+
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(String.format("%s/black_list", BASE_URL)).newBuilder();
+
+        String url = urlBuilder.build().toString();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .header("X-Http-Token", ContextUtil.getUserToken(context))
+                .build();   // GET의 경우에는 메쏘드 지정 필요 없다. (제일 기본이기 때문에)
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                연결에 실패했을 때의 처리
+                Log.e("서버연결실패", "연결안됨!");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                연결에 성공해서 응답이 돌아왔을 때의 처리 => string()으로 변환
+                String body = response.body().string();
+                Log.d("로그인응답!!!!!!", body);
+
+//                응답 내용을 JSON 객체로 가공
+                try {
+//                    body의 String을 JSONObject 형태로 변환
+//                    양식에 맞지않는 내용이면, 앱이 터질 수 있으니 try / catch로 감싸도록 처리
+                    JSONObject json = new JSONObject(body);
+
+//                    이 JSON에 대한 분석은 화면단에 넘겨주자
+                    if (handler != null) {
+                        handler.onResponse(json);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
 
     public static void getReuestUserList(Context context, String active, final JsonResponseHandler handler) {
 
