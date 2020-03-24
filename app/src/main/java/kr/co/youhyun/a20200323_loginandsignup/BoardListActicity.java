@@ -35,6 +35,48 @@ public class BoardListActicity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        ServerUtil.getRequestBlackList(mContext, new ServerUtil.JsonResponseHandler() {
+            @Override
+            public void onResponse(JSONObject json) {
+                try {
+                    int code = json.getInt("code");
+                    if (code == 200) {
+//                        기존에 불러둔 게시글을 모두 삭제 => 새로 불러옴
+//                        blacks에 들어있는 객체를 모두 삭제
+                        blacks.clear();
+
+                        JSONObject data = json.getJSONObject("data");
+                        JSONArray blackLists = data.getJSONArray("black_lists");
+
+                        for (int i=0; i<blackLists.length(); i++) {
+                            JSONObject bl = blackLists.getJSONObject(i);
+                            Black blackPost = Black.getBlackFromJson(bl);
+                            Log.d("블랙신고제목", blackPost.getTitle());
+                            // 파싱 끝나는 블랙신고글들을 배열에 담아둠
+                            blacks.add(blackPost);
+                        }
+//                                모두 담긴 게시글들 => 어댑터가 새로고침
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                blackAdapter.notifyDataSetChanged();
+
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+
+    }
+
+    @Override
     public void setupEvents() {
 
         binding.postBtn.setOnClickListener(new View.OnClickListener() {
@@ -52,38 +94,5 @@ public class BoardListActicity extends BaseActivity {
 
         blackAdapter = new BlackAdapter(mContext, R.layout.black_list_item, blacks);
         binding.postListView.setAdapter(blackAdapter);
-
-        ServerUtil.getRequestBlackList(mContext, new ServerUtil.JsonResponseHandler() {
-                    @Override
-                    public void onResponse(JSONObject json) {
-                        try {
-                            int code = json.getInt("code");
-                            if (code == 200) {
-                                JSONObject data = json.getJSONObject("data");
-                                JSONArray blackLists = data.getJSONArray("black_lists");
-
-                                for (int i=0; i<blackLists.length(); i++) {
-                                    JSONObject bl = blackLists.getJSONObject(i);
-                                    Black blackPost = Black.getBlackFromJson(bl);
-                                    Log.d("블랙신고제목", blackPost.getTitle());
-                                    // 파싱 끝나는 블랙신고글들을 배열에 담아둠
-                                    blacks.add(blackPost);
-                                }
-//                                모두 담긴 게시글들 => 어댑터가 새로고침
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        blackAdapter.notifyDataSetChanged();
-
-                                    }
-                                });
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-        });
-
     }
 }
