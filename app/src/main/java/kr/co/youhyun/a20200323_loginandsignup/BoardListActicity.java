@@ -3,8 +3,10 @@ package kr.co.youhyun.a20200323_loginandsignup;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +36,14 @@ public class BoardListActicity extends BaseActivity {
 
     @Override
     public void setupEvents() {
+
+        binding.postBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, EditBlackActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
