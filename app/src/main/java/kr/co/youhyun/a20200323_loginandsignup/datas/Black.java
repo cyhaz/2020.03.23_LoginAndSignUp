@@ -17,6 +17,13 @@ public class Black implements Serializable {
     private Calendar createdAt;
     private User writer;
 
+//    Calendar => 양식으로 가공해서 String으로 변환
+    public String getFormattedCreateAt() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 M월 d일 a h시 m분 s초");
+        return sdf.format(this.createdAt.getTime());
+    }
+
     public static Black getBlackFromJson(JSONObject json) {
         Black black = new Black();
         try {

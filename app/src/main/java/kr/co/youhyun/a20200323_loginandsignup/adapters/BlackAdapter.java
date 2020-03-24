@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +37,22 @@ public class BlackAdapter extends ArrayAdapter<Black> {
         if (row == null) {
             row = inf.inflate(R.layout.black_list_item, null);
         }
+
+        Black data = mList.get(position);
+
+        TextView writerNameTxt = row.findViewById(R.id.writerNameTxt);
+        TextView titleTxt = row.findViewById(R.id.titleTxt);
+        TextView createdAtTxt = row.findViewById(R.id.createdAtTxt);
+        TextView contentTxt = row.findViewById(R.id.contextTxt);
+
+        writerNameTxt.setText(data.getWriter().getName());
+        titleTxt.setText(data.getTitle());
+        contentTxt.setText(data.getContent());
+
+//        잓작성일시 출력 : Calendar => String으로 변환 => Black의 기능으로 추가
+        createdAtTxt.setText(data.getFormattedCreateAt());
+
+
         return row;
     }
 }
