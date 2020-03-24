@@ -85,7 +85,63 @@ public class ServerUtil {
         });
     }
 
-//    파라미터 기본구조 : 어떤화면에서? context 어떤 응답 처리를 할지? handler 를 변수로
+    public static void postRequestWriteBlack(Context context, String phone, String title, String content, final JsonResponseHandler handler) {
+
+//        클라이언트 역할 수행 변수 생성
+        OkHttpClient client = new OkHttpClient();
+
+//        어느 주소(호스트주소/기능주소)로 갈지? String 변수로 저장
+        String urlstr = String.format("%s/black_list", BASE_URL);
+
+//        서버로 들고갈 파라미터를 담아줘야한다.
+        FormBody formData = new FormBody.Builder()
+                .add("title", title)
+                .add("phone_num", phone)
+                .add("content", content)
+                .build();
+
+        Request request = new Request.Builder()
+                .url(urlstr)
+                .post(formData)
+                .header("X-Http-Token", ContextUtil.getUserToken(context))
+                .build();
+
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+//                연결에 실패했을 때의 처리
+                Log.e("서버연결실패", "연결안됨!");
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+//                연결에 성공해서 응답이 돌아왔을 때의 처리 => string()으로 변환
+                String body = response.body().string();
+                Log.d("로그인응답!!!!!!", body);
+
+//                응답 내용을 JSON 객체로 가공
+                try {
+//                    body의 String을 JSONObject 형태로 변환
+//                    양식에 맞지않는 내용이면, 앱이 터질 수 있으니 try / catch로 감싸도록 처리
+                    JSONObject json = new JSONObject(body);
+
+//                    이 JSON에 대한 분석은 화면단에 넘겨주자
+                    if (handler != null) {
+                        handler.onResponse(json);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+
+
+    //    파라미터 기본구조 : 어떤화면에서? context 어떤 응답 처리를 할지? handler 를 변수로
 //    가운데 추가 고려 : 화면에서 어떤 데이터를 받아서 => 서버로 전달?
     public static void putRequestSignUp(Context context, String id, String pw, String name, String phoneNum, final JsonResponseHandler handler) {
 
