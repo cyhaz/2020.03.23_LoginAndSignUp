@@ -10,12 +10,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import kr.co.youhyun.a20200323_loginandsignup.databinding.ActivityBoardListActicityBinding;
 import kr.co.youhyun.a20200323_loginandsignup.datas.Black;
 import kr.co.youhyun.a20200323_loginandsignup.utils.ServerUtil;
 
 public class BoardListActicity extends BaseActivity {
 
+    List<Black> blacks = new ArrayList<>();
     ActivityBoardListActicityBinding binding = null;
 
     @Override
@@ -47,7 +51,10 @@ public class BoardListActicity extends BaseActivity {
                                     JSONObject bl = blackLists.getJSONObject(i);
                                     Black blackPost = Black.getBlackFromJson(bl);
                                     Log.d("블랙신고제목", blackPost.getTitle());
+                                    // 파싱 끝나느 블랙신고글들을 배열에 담아둠
+                                    blacks.add(blackPost);
                                 }
+//                                모두 담긴 게시글들 => 어댑터가 새로고침
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
